@@ -15,7 +15,7 @@ import android.widget.FrameLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.ViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner
 import com.facebook.react.bridge.*
 import com.mapbox.android.gestures.*
 import com.mapbox.bindgen.Value
@@ -131,11 +131,9 @@ class RNMBXLifeCycle {
                     }
                 }
 
-                override fun getLifecycle(): Lifecycle {
-                    return lifecycleRegistry
-                }
+                override val lifecycle: Lifecycle get() = lifecycleRegistry
             }
-            ViewTreeLifecycleOwner.set(view, lifecycleOwner);
+            view.setViewTreeLifecycleOwner(lifecycleOwner)
         }
         lifecycleOwner?.handleLifecycleEvent(Lifecycle.Event.ON_START)
     }
@@ -1573,6 +1571,3 @@ fun OrnamentSettings.setPosAndMargins(posAndMargins: ReadableMap?) {
     this.position = position
     this.margins = margins
 }
-
-
-
